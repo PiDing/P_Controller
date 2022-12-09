@@ -27,18 +27,12 @@ Initialization:
 
 LineFollowing:
 	call		IR_2Sensor_Read
-    	movff   	IR_Left_H, 0x100
-   	movff   	IR_Left_L, 0x101
-    	movff   	IR_Right_H, 0x110
-    	movff		IR_Right_L, 0x111
 	call		IR2Error
-	movff	   	error_H, 0x10
-	movff		error_L, 0x11
 	call		Error2PWM
 	movff		PWM_L, CCPR4L
 	movff		PWM_R, CCPR5L
 	bra		LineFollowing    
 
-end    
+end rst    
 
 
