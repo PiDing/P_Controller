@@ -4,7 +4,8 @@ GLOBAL	PWM_Init
 psect pwmCode, class = CODE
 
 PWM_Init:
-    movlw   0x66
+    ;movlw   0x66
+    movlw   01110110B
     movwf   OSCCON
 
     
@@ -24,34 +25,40 @@ PWM_Init:
     clrf    LATD
     clrf    TRISD
     
-    ;bsf	    PORTD, 3 ; standy for motor click 17
+    bsf	    PORTD, 3 ; standy for motor click 17
+    bcf	    PORTB, 3
+    bsf	    PORTA, 0                                                      ; standy for motor click 17
+    bcf	    PORTD, 2
     
     ;TMR2 and CCP4CON for PWM 1
     movlw	0xFF
     movwf	PR2
-    movlw   0xF0
-    movwf   CCPR4L
-
-    movlw	00000100B
-    movwf	T2CON
+    movlw	0xF0
+    movwf	CCPR4L
     
-    movlw   00001100B
-    movwf   CCP4CON
-
-
-    ;TMR4 and CCP5CON for PWM 2
-    movlw	0xFF
-    movwf	PR4
-
     movlw   0x20
     movwf   CCPR5L
 
     movlw	00000100B
-    movwf	T4CON
+    movwf	T2CON
+    
+    movlw	00001100B
+    movwf	CCP4CON
     
     movlw   00001100B
     movwf   CCP5CON
-    return
+
+
+    ;TMR4 and CCP5CON for PWM 2
+    ;movlw	0xFF
+    ;movwf	PR4
+
+
+
+    ;movlw	00000100B
+    ;movwf	T4CON
+    
+
 
     return
 

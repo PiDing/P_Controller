@@ -17,6 +17,7 @@ rst: org 0x0
 goto Initialization
 
 
+ 
 Initialization:
 
 	call	IR_ADC_Setup
@@ -33,6 +34,8 @@ LineFollowing:
 	movff		PWM_R, CCPR5L
 	bra		LineFollowing    
 
+	
+	
 end rst    
 
 
