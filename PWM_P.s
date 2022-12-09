@@ -29,8 +29,7 @@ PWM_Init:
     ;TMR2 and CCP4CON for PWM 1
     movlw	0xFF
     movwf	PR2
-
-    movlw   0x20
+    movlw   0xF0
     movwf   CCPR4L
 
     movlw	00000100B
@@ -38,7 +37,7 @@ PWM_Init:
     
     movlw   00001100B
     movwf   CCP4CON
-    return
+
 
     ;TMR4 and CCP5CON for PWM 2
     movlw	0xFF
@@ -52,6 +51,8 @@ PWM_Init:
     
     movlw   00001100B
     movwf   CCP5CON
+    return
+
     return
 
 END
