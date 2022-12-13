@@ -39,7 +39,7 @@ psect error2pwm_code, class = CODE
     andwf   	temp_error_L
     movf    	temp_error_L, W
     addwf   	temp_pwm
-    movwf	0x03
+    movwf	0x04
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
     movlw	0x75
