@@ -6,7 +6,7 @@ EXTRN	FXM1616U,  _24_BitAdd, _24_bit_sub, Math_Init
 EXTRN  	IR_ADC_Setup, IR_Left_H, IR_Left_L, IR_Right_H, IR_Right_L, IR_2Sensor_Read
 EXTRN	error_H, error_L, IR2Error, errorSign 
 EXTRN	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM
-EXTRN	PWM_Init  
+EXTRN	PWM_Init, temp_pwm  
 
 ; PIC18F87J50 Configuration Bit Settings
 ; CONFIG1L
@@ -14,9 +14,20 @@ EXTRN	PWM_Init
 
 psect code, abs
 rst: org 0x0
-goto Initialization
+goto Start
 
-
+Start:
+    	bsf	TRISD, 7
+	bsf	TRISH, 3
+	clrf	LATD
+	clrf	LATH
+	goto	Waiting
+	
+Waiting:
+	btfss	PORTD, 7
+	goto	Initialization
+	bra	Waiting
+    
  
 Initialization:
 
@@ -26,14 +37,16 @@ Initialization:
 	call	Math_Init
 	goto	LineFollowing
 
+	
 LineFollowing:
 	call		IR_2Sensor_Read
 	call		IR2Error
 	call		Error2PWM
-	movff		PWM_L, CCPR4L
-	movff		PWM_R, CCPR5L
+	movff		PWM_L, CCPR4L;
+	movff		PWM_R, CCPR5L;
 	bra		LineFollowing    
 
+	
 	
 	
 end rst    
