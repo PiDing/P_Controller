@@ -42,7 +42,7 @@ psect error2pwm_code, class = CODE
     movwf	0x03
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
-    movlw	0x65
+    movlw	0x75
     cpfslt	temp_pwm
     movwf	temp_pwm
     btfsc	 errorSign, 0

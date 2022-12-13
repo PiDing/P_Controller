@@ -11,7 +11,7 @@ psect udata_acs
 
 IR_Left_H:    		ds 1
 IR_Left_L:    		ds 1
-IR_Right_H:   	ds 1
+IR_Right_H:		ds 1
 IR_Right_L:  		ds 1
 error_H:		ds 1
 error_L:		ds 1
@@ -33,9 +33,9 @@ IR_ADC_Setup:
 
 IR_Read:
 	bsf	GO	    ; Start conversion by setting GO bit in ADCON0
-adc_loop:
+IR_adc_loop:
 	btfsc   GO	    ; check to see if finished
-	bra	adc_loop
+	bra	IR_adc_loop
 	return
 
 IR_2Sensor_Read:
@@ -92,20 +92,13 @@ L_LR_eq:
     
 left_big:
     movff  	IR_Left_H, AARGB1
-    ;movff  	IR_Left_H, 0x00
     movff  	IR_Left_L, AARGB2
-    ;movff  	IR_Left_L, 0x01
     movff  	IR_Right_H, BARGB1
-    ;movff  	IR_Right_H, 0x02
     movff  	IR_Right_L, BARGB2
-    ;movff  	IR_Right_L, 0x03
     call   	_24_bit_sub
     movff  	AARGB1, error_H
-    ;movff  	AARGB1, 0x04
     movff  	AARGB2, error_L
-    ;movff  	AARGB2, 0x05
     bsf	   	errorSign, 0
-    ;bsf	   	0x06, 0
     clrf  	AARGB0
     clrf   	AARGB1
     clrf   	AARGB2
