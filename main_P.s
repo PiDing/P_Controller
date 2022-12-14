@@ -26,14 +26,14 @@ goto Start
 Start:
     	bsf	TRISD, 7
 	bsf	TRISH, 3
-	bcf	TRISC, 1
+	bcf	TRISJ, 7
 	clrf	LATD
 	clrf	LATH
 	goto	Waiting
 	
 Waiting:
 	bsf	LATD,  7
-	bcf	LATC,  1
+	bcf	LATJ,  7
 	bcf	LATG,  3
 	movlw	0x00
 	movwf	CCPR4L
@@ -43,8 +43,8 @@ Waiting:
     
  
 Initialization:
-	bsf	LATC,  1
-	bsf	PORTC,  1
+	bsf	LATJ,  7
+	bsf	PORTJ,  7
 	call	Datalog_Init
 	call	IR_ADC_Init
 	call	Error2PWM_Init
