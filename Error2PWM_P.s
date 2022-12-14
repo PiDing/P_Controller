@@ -39,13 +39,13 @@ psect error2pwm_code, class = CODE
     andwf   	temp_error_L
     movf    	temp_error_L, W
     addwf   	temp_pwm
-    movwf	0x04
+    movwf	0x04  ;;0x05 is optimal for curved line
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
-    movlw	0x75
+    movlw	0x79
     cpfslt	temp_pwm
     movwf	temp_pwm
-    btfsc	 errorSign, 0
+    btfsc	errorSign, 0
     bra	    	turn_right
     bra	    	turn_left
 
@@ -53,15 +53,15 @@ turn_right:
     movf    	temp_pwm, W
     addwf   	PWM_Default, 0, 0
     movwf   	PWM_L
-    movf    	temp_pwm, W
-    subwf   	PWM_Default, 0
-    movwf   	PWM_R
+    ;movf    	temp_pwm, W
+    ;subwf   	PWM_Default, 0
+    ;movwf   	PWM_R
     return
     
 turn_left:
-    movf    temp_pwm, W
-    addwf   PWM_Default, 0, 0
-    movwf   PWM_R
+    ;movf    temp_pwm, W
+    ;addwf   PWM_Default, 0, 0
+    ;movwf   PWM_R
     movf    temp_pwm, W
     subwf   PWM_Default, 0
     movwf   PWM_L

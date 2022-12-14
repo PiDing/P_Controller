@@ -3,7 +3,7 @@
 EXTRN	AARGB0, AARGB1, AARGB2, AARGB3	
 EXTRN	BARGB0, BARGB1, BARGB2, BARGB3
 EXTRN	FXM1616U, _24_BitAdd, _24_bit_sub
-GLOBAL  IR_ADC_Setup, IR_Left_H, IR_Left_L, IR_Right_H, IR_Right_L, IR_2Sensor_Read
+GLOBAL  IR_ADC_Init, IR_Left_H, IR_Left_L, IR_Right_H, IR_Right_L, IR_2Sensor_Read
 GLOBAL	error_H, error_L, IR2Error, errorSign 
 
 ;for error sign, bit 0: 1= Pos, 0 = Neg
@@ -18,7 +18,7 @@ error_L:		ds 1
 errorSign:		ds 1
 
 psect	adc_code, class=CODE
-IR_ADC_Setup:
+IR_ADC_Init:
 	bsf	TRISH,	4, A
 	bsf	TRISH,	5, A
 	bsf	TRISH,	6, A

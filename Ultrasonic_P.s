@@ -12,11 +12,10 @@ ultrasonic_L: ds   1
 PSECT  ultrasonic_code, ABS
   
 PULSE:  
-   CLRF  LATE, A
-   CLRF  TRISE, A
-   CLRF  PORTE, A
-   bsf	 PORTE, 0
-   MOVWF  PORTE,F
+   CLRF  LATC, A
+   CLRF  TRISC, A
+   CLRF  PORTC, A
+   bsf	 PORTC, 2
    CALL DELAY
 ;     BRA INIT
       
@@ -26,59 +25,42 @@ DELAY:
    RETURN
    
 Ultrasonic_ADC_Setup:
-    CLRF LATE
-    CLRF TRISE
-    CLRF PORTE
-    BSF TRISE, 0 ; use pin A0(==AN0) for input
-    clrf ANCON0
-    movlw 00111101B
-    movwf ADCON0   ; set A15 to analog
-           	   ; select AN0 for measurement
-                       	    ; and turn ADC on
-                            ; Select 4.096V positive reference
-    movwf   ADCON1	    ; 0V for -ve reference and -ve input
-    return
-
-ADC_Read:
-    bsf	    GO	    ; Start conversion
-adc_loop:
-    btfsc   GO	    ; check to see if finished
-    bra	    adc_loop
-    return
+    CLRF LATC
+    CLRF TRISC
+    CLRF PORTC
+    bcf PORTC, 2
+    BSF TRISC, 2 ; use pin A0(==AN0) for input
+   
 
 
 Ultrasonic_Init:
-   CLRF TRISE
-   CLRF LATE
-   CLRF PORTE
-   BSF TRISE, 0
    CLRF TMR1
-   MOVLW 01110001B
-   MOVWF T1CON
+   MOVLW 01000001B
+   MOVWF T1CON, A
+   movlw 00000100B
+   movwf ECCP1
    return
    
-ADC:
-   CALL ADC_Read
-   MOVFF ADREFH, ADC_H
-   MOVFF ADREFH, ADC_L
-   BRA READ
+
 
 READ:
-MOVLW 0XFE
-CPFSLT TMR1
+MOVLW 0X44
+CPFSLT TMR1_H
 BRA BIG_DELAY
-MOVLW 0X00
-CPFSGT ADC_H
-BRA ADC
-MOVFF TMR1, TIMEREAD
+movlw
+MOVFF TMR1_L, ultrasonic_L
+movff TMR_H, ultrasonic_H
 BRA INTERRUPT
 
 INTERRUPT:
-   MOVLW 0X93
-   CPFSLT TIMEREAD
+   MOVLW 0X02
+   CPFSLT TIMEREAD_H
    BRA STOP
    BRA BIG_DELAY
 BIG_DELAY:
+   movlw 0X00
+   movwf T1CON
+   movwf ECCP1
    DECFSZ 0XF0, A
    BRA BIG_DEALY
    CALL DELAY_1
