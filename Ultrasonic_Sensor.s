@@ -44,8 +44,8 @@ Wait:
 Compare:
    MOVLW 0X02
    CPFSLT ultrasonic_H, A
-   BRA BIG_DELAY
-   bra Waiting
+   call BIG_DELAY
+   call Waiting
    return
 ;BRA INTERRUPT
 
