@@ -39,7 +39,7 @@ psect error2pwm_code, class = CODE
     andwf   	temp_error_L
     movf    	temp_error_L, W
     addwf   	temp_pwm
-    movwf	0x04  ;;0x05 is optimal for curved line
+    movwf	0x05  ;;0x05 is optimal for curved line
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
     movlw	0x79

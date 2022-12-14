@@ -2,12 +2,11 @@
     #include <XC.INC>
 
     global  PULSE, DELAY, ISR, BIG_DELAY, DELAY_1, DELAY_2, DELAY_3, Ultrasonic_Init, Waiting
-    
+    extrn ISR, ultraonic_H, ultrasonic_L
 
 psect udata_acs
 
-ultrasonic_H: ds   1
-ultrasonic_L: ds   1
+
   
 PSECT  ultrasonic_code, ABS
     
@@ -47,13 +46,7 @@ Compare:
    call BIG_DELAY
    call Waiting
    return
-;BRA INTERRUPT
 
-;INTERRUPT:
-;   MOVLW 0X02
- ;  CPFSLT Ultrasonic_H
-  ; BRA STOP
-   ;BRA BIG_DELAY
 BIG_DELAY:
    DECFSZ 0XF0, A
    BRA BIG_DELAY
