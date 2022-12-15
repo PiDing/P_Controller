@@ -15,6 +15,14 @@ TMR0_Init:
 	return
 
 Data_Interrupts:
+	;bcf	TRISC, 2	
+	;btfss	LATC, 2
+	;bra	setc2
+	;bcf	LATC, 2
+	;bra	donec2
+;setc2:	
+	;bsf	LATC, 2
+;donec2:
     	btfss	TMR0IF
 	retfie	f
 	movlw	0x0A
