@@ -1,19 +1,28 @@
 #include <xc.inc>
     
-global B2_Interrupts
+global Data_Interrupts, TMR0_Init
     
-EXTRN	Waiting
+EXTRN	data_count_H, write_data
     
 psect	intrpt_code, class=CODE
 
-B2_Interrupts:
-;    	btfss	PORTH, 3
-;	bra	B2_trigger
-;	bra	B2_Interrupts
+    
+TMR0_Init:
+	movlw	11000111B
+	movwf	T0CON
+	bsf	TMR0IE
+	bsf	GIE
+	return
+Data_Interrupts:
+    	btfss	TMR0IF
+	retfie	f
+	movlw	0x04
+	cpfseq	data_count_H
+	call	write_data
+	bcf	TMR0IF
+	retfie	f
 	
-B2_trigger:
-;	bcf	INTCON	INT0IF
-;	call Waiting
 	
+
 
 

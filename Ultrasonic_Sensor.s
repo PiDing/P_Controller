@@ -1,22 +1,23 @@
 
     #include <XC.INC>
 
-    global  PULSE, DELAY, ISR, BIG_DELAY, DELAY_1, DELAY_2, DELAY_3, Ultrasonic_Init, Waiting
-    extrn ISR, ultraonic_H, ultrasonic_L
+    global  PULSE, DELAY, ISR, BIG_DELAY, DELAY_1, DELAY_2, DELAY_3, Ultrasonic_Init, Compare
+    extrn   ISR, ultrasonic_H, ultrasonic_L
 
-psect udata_acs
+
 
 
   
 PSECT  ultrasonic_code, ABS
     
-  
+
+ 
 PULSE:  
    CLRF  LATC, A
    CLRF  TRISC, A
    CLRF  PORTC, A
    bsf	 PORTC, 2
-   CALL DELAY
+   ;CALL DELAY
    BRA Ultrasonic_Init
       
 DELAY:
@@ -32,19 +33,20 @@ Ultrasonic_Init:
    CLRF TMR1, A
    MOVLW 01000001B
    MOVWF T1CON, A
-   ;movlw 00000100B
-   ;movwf CCP1CON
+   movlw 00000100B
+   movwf ECCP1CON, A
  
 Wait:
     movlw 0x44
     cpfslt TMR1H, A
+    bra Wait
     bra BIG_DELAY
 
 Compare:
    MOVLW 0X02
    CPFSLT ultrasonic_H, A
    call BIG_DELAY
-   call Waiting
+   ;call Waiting
    return
 
 BIG_DELAY:
@@ -65,7 +67,7 @@ DELAY_2:
 DELAY_3:
    DECFSZ 0X18, A
    BRA DELAY_3
-   BRA PULSE
+   bra PULSE
    
 
     end

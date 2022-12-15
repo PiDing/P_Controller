@@ -6,7 +6,8 @@ EXTRN	FXM1616U,  _24_BitAdd, _24_bit_sub, Math_Init
 EXTRN  	IR_ADC_Init, IR_Left_H, IR_Left_L, IR_Right_H, IR_Right_L, IR_2Sensor_Read
 EXTRN	error_H, error_L, IR2Error, errorSign 
 EXTRN	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, PWM_Init, temp_pwm
-EXTRN	Datalog_Init, Data_record
+EXTRN	Datalog_Init
+EXTRN	Data_Interrupts, TMR0_Init
     
 global	Waiting
 
@@ -19,8 +20,8 @@ psect code, abs
 rst: org 0x0
 goto Start
 
-;int_hi: org 0x0008
-	;goto	B2_Interrupts
+int_hi: org 0x0008
+	goto	Data_Interrupts
 	
  
 Start:
@@ -50,6 +51,7 @@ Initialization:
 	call	Error2PWM_Init
 	call	PWM_Init
 	call	Math_Init
+	call	TMR0_Init
 	goto	LineFollowing
 
 	
@@ -61,7 +63,7 @@ LineFollowing:
 	call	Error2PWM
 	movff	PWM_L, CCPR4L;
 	;movff	PWM_R, CCPR5L;
-	call	Data_record
+	;call	Data_record
 	bra	LineFollowing    
 
 end rst    
