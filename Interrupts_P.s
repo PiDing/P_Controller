@@ -13,10 +13,11 @@ TMR0_Init:
 	bsf	TMR0IE
 	bsf	GIE
 	return
+
 Data_Interrupts:
     	btfss	TMR0IF
 	retfie	f
-	movlw	0x04
+	movlw	0x0A
 	cpfseq	data_count_H
 	call	write_data
 	bcf	TMR0IF
