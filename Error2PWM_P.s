@@ -53,7 +53,7 @@ psect error2pwm_code, class = CODE
     movlw	0x0A
     cpfslt	temp_pwm
     call	threshold_cnt
-    movlw	0x11;;0x05 is optimal for curved line
+    movlw	0x11	;Kp value
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
     movlw	0x75
@@ -67,15 +67,11 @@ turn_right:
     movf    	temp_pwm, W
     addwf   	PWM_Default, 0, 0
     movwf   	PWM_L
-    ;movf    	temp_pwm, W
-    ;subwf   	PWM_Default, 0
-    ;movwf   	PWM_R
+
     return
     
 turn_left:
-    ;movf    temp_pwm, W
-    ;addwf   PWM_Default, 0, 0
-    ;movwf   PWM_R
+
     movf    temp_pwm, W
     subwf   PWM_Default, 0
     movwf   PWM_L

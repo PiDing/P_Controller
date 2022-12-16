@@ -8,7 +8,6 @@ EXTRN	error_H, error_L, IR2Error, errorSign
 EXTRN	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, PWM_Init, temp_pwm
 EXTRN	Datalog_Init
 EXTRN	Data_Interrupts, TMR0_Init, Determine_Interrupts
-EXTRN	Ultrasonic_Init
     
 global	Waiting
 
@@ -26,7 +25,6 @@ int_hi: org 0x0008
 	
  
 Start:
-	bsf	LATC,  2
     	bsf	TRISD, 7
 	bsf	TRISH, 3
 	bcf	TRISJ, 7
@@ -54,7 +52,6 @@ Initialization:
 	call	PWM_Init
 	call	Math_Init
 	call	TMR0_Init
-	call	Ultrasonic_Init
 	goto	LineFollowing
 
 	
@@ -65,8 +62,7 @@ LineFollowing:
 	call	IR2Error
 	call	Error2PWM
 	movff	PWM_L, CCPR4L;
-	;movff	PWM_R, CCPR5L;
-	;call	Data_record
+
 	bra	LineFollowing    
 
 end rst    
