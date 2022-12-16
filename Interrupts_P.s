@@ -33,31 +33,43 @@ Data_Interrupts:
 	retfie	f
 	
 Ultrasonic_Interrupts:
-	btfss TMR1IF
-	retfie f
-	movlw 0x00
-	movwf PIR1
-	incf Cycle, F
-	movlw 0x02 
-	cpfseq Cycle
-	retfie f
-	clrf Cycle
-	btfss PORTC, 2
-	bra Stop
-	CLRF  LATC, A
-	CLRF  TRISC, A
-	CLRF  PORTC, A
-	bcf TRISC, 2
-	bsf	 PORTC, 2 
-	CLRF LATC, A
-	CLRF TRISC, A
-	CLRF PORTC, A
-	BSF TRISC, 2 
-	retfie f
-     Stop:
-	bcf LATJ, 7
-	movlw 0x00
-	movwf CCP4CON
+;btfss TMR1IF
+   ;retfie f
+   bcf	TMR1IF
+   incf Cycle, F
+   movlw 0xA0 
+   cpfseq Cycle
+   retfie f
+   clrf Cycle
+   btfss PORTC, 2
+   bra PULSE_1
+   goto	Waiting_2
+   
+
+Waiting_2:
+   bsf	LATD,  7
+   bcf	LATJ,  7
+   bcf	LATG,  3
+   movlw	0x00
+   movwf	CCPR4L
+   btfss	PORTD, 7
+   retfie f
+   bra	Waiting_2
+
+PULSE_1:
+   CLRF  LATC, A
+   CLRF  TRISC, A
+   CLRF  PORTC, A
+   bcf TRISC, 2
+   bsf	 PORTC, 2 
+   NOP
+   NOP
+   CLRF LATC, A
+   CLRF TRISC, A
+   CLRF PORTC, A
+   BSF TRISC, 2 
+   retfie f
+
 	
 
 
