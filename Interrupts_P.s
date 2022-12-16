@@ -1,6 +1,6 @@
 #include <xc.inc>
     
-global Data_Interrupts, TMR0_Init
+global Data_Interrupts, TMR0_Init, Determine_Interrupts
     
 EXTRN	data_count_H, write_data, Cycle
     
@@ -13,7 +13,8 @@ TMR0_Init:
 	bsf	TMR0IE
 	bsf	GIE
 	return
-
+Determine_Interrupts:
+	goto	Data_Interrupts
 Data_Interrupts:
 	;bcf	TRISC, 2	
 	;btfss	LATC, 2

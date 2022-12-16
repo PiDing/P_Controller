@@ -7,7 +7,7 @@ EXTRN  	IR_ADC_Init, IR_Left_H, IR_Left_L, IR_Right_H, IR_Right_L, IR_2Sensor_Re
 EXTRN	error_H, error_L, IR2Error, errorSign 
 EXTRN	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, PWM_Init, temp_pwm
 EXTRN	Datalog_Init
-EXTRN	Data_Interrupts, TMR0_Init
+EXTRN	Data_Interrupts, TMR0_Init, Determine_Interrupts
 EXTRN	Ultrasonic_Init, PULSE
     
 global	Waiting
@@ -22,7 +22,7 @@ rst: org 0x0
 goto Start
 
 int_hi: org 0x0008
-	goto	Data_Interrupts
+	goto	Determine_Interrupts
 	
  
 Start:

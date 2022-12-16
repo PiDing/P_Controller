@@ -53,7 +53,7 @@ psect error2pwm_code, class = CODE
     movlw	0x0A
     cpfslt	temp_pwm
     call	threshold_cnt
-    movlw	0x5;;0x05 is optimal for curved line
+    movlw	0x11;;0x05 is optimal for curved line
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
     movlw	0x75
