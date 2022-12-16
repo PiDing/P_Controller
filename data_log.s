@@ -7,7 +7,7 @@ data_count_H:	    ds 1
 ;temp_cnt:	    ds 1
     
 GLOBAL	Datalog_Init, data_count_H, write_data
-EXTRN	temp_pwm		
+EXTRN	error_to_record		
 
 psect datalog_Code, class = CODE
  
@@ -46,7 +46,7 @@ Datalog_Init:
 ;    return
  
  write_data:
-    movff   temp_pwm, POSTINC0
+    movff   error_to_record, POSTINC0
     movlw   0xFF
     cpfseq  data_count_L
     bra    inc_data_count_L
@@ -58,5 +58,4 @@ inc_data_count_L:
     incf    data_count_L
     return
     
-
 

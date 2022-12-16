@@ -19,6 +19,7 @@
       <itemPath>IR_Sensor_P.s</itemPath>
       <itemPath>Interrupts_P.s</itemPath>
       <itemPath>data_log.s</itemPath>
+      <itemPath>Ultrasonic2_P.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

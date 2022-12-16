@@ -8,6 +8,7 @@ EXTRN	error_H, error_L, IR2Error, errorSign
 EXTRN	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, PWM_Init, temp_pwm
 EXTRN	Datalog_Init
 EXTRN	Data_Interrupts, TMR0_Init
+EXTRN	Ultrasonic_Init, PULSE
     
 global	Waiting
 
@@ -52,12 +53,14 @@ Initialization:
 	call	PWM_Init
 	call	Math_Init
 	call	TMR0_Init
+	call	Ultrasonic_Init
 	goto	LineFollowing
 
 	
 LineFollowing:
     	btfss	PORTH, 3
 	bra	Waiting
+	call	PULSE
 	call	IR_2Sensor_Read
 	call	IR2Error
 	call	Error2PWM

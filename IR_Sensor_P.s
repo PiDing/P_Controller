@@ -42,7 +42,7 @@ IR_2Sensor_Read:
     movlw   00110001B	    ; select AN12 for measurement
     movwf   ADCON0, A  
     call    IR_Read
-    movff   ADRESH, IR_Left_H
+    movff   ADRESH, IR_Left_Hs
     movff   ADRESL, IR_Left_L
    
     clrf    ADRESH

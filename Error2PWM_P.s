@@ -4,7 +4,7 @@ EXTRN	AARGB0, AARGB1, AARGB2, AARGB3
 EXTRN	BARGB0, BARGB1, BARGB2, BARGB3
 EXTRN	FXM1616U, _24_BitAdd, _24_bit_sub	
 EXTRN	errorSign, error_H, error_L
-GLOBAL	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, temp_pwm, error_threshold_cnt_H, error_threshold_cnt_M, error_threshold_cnt_L
+GLOBAL	PWM_Default, PWM_L, PWM_R, Error2PWM_Init, Error2PWM, temp_pwm, error_to_record, error_threshold_cnt_H, error_threshold_cnt_M, error_threshold_cnt_L
 
 psect udata_acs
 PWM_Default:    	  ds 1
@@ -13,6 +13,7 @@ PWM_R:		  ds 1
 temp_error_H:	  ds 1
 temp_error_L:	  ds 1
 temp_pwm:	  ds 1
+error_to_record:	ds 1
 error_threshold_cnt_L:  ds 1
 error_threshold_cnt_M: ds 1
 error_threshold_cnt_H:  ds 1   
@@ -27,6 +28,8 @@ psect error2pwm_code, class = CODE
     clrf    	temp_error_H
     clrf    	temp_error_L
     movlw	0x00
+    movwf	error_to_record
+    movwf	temp_pwm
     movwf	error_threshold_cnt_L
     movwf	error_threshold_cnt_M
     movwf	error_threshold_cnt_H
@@ -46,13 +49,14 @@ psect error2pwm_code, class = CODE
     andwf   	temp_error_L
     movf    	temp_error_L, W
     addwf   	temp_pwm
-    movlw	0x10
+    movff	temp_pwm, error_to_record
+    movlw	0x0A
     cpfslt	temp_pwm
     call	threshold_cnt
-    movlw	0x09;;0x05 is optimal for curved line
+    movlw	0x06;;0x05 is optimal for curved line
     mulwf	temp_pwm	
     movff	PRODL, temp_pwm
-    movlw	0x79
+    movlw	0x75
     cpfslt	temp_pwm
     movwf	temp_pwm
     btfsc	errorSign, 0
@@ -96,4 +100,3 @@ inc_error_threshold_cnt_M:
     clrf    error_threshold_cnt_L
     incf    error_threshold_cnt_M
     return
-
